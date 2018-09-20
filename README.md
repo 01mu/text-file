@@ -1,16 +1,16 @@
 # text-file
-```
-file
 
+# file
+```
 a a a
 b
 c
 d d
 
 e
-
-"./text-file file -cs"
-
+```
+# ./text-file file -cs
+```
 file
 
 Char count: 11
@@ -25,9 +25,9 @@ d 2 25.000000
 e 1 12.500000
 
 0.000325
-
-"./text-file file -s a"
-
+```
+# ./text-file file -s a
+```
 file - "a"
 
 1: a a a
@@ -35,5 +35,4 @@ file - "a"
 Search count: 1
 
 0.000241
-
 ```
