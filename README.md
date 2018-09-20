@@ -1,6 +1,6 @@
 # text-file
 
-# file
+### file
 ```
 a a a
 b
@@ -9,7 +9,7 @@ d d
 
 e
 ```
-# ./text-file file -cs
+### ./text-file file -cs
 ```
 file
 
@@ -26,7 +26,7 @@ e 1 12.500000
 
 0.000325
 ```
-# ./text-file file -s a
+### ./text-file file -s a
 ```
 file - "a"
 
