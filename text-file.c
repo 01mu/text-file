@@ -698,7 +698,7 @@ FILE * open_file(char * file, char * type)
     }
     else
     {
-        //printf("File \"%s\" failed to open.\n", file); 67360508
+        //printf("File \"%s\" failed to open.\n", file);
     }
 
     return fp;
