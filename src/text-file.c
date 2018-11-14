@@ -1,6 +1,5 @@
 /*
  * text-file
- *
  * github.com/01mu
  */
 
