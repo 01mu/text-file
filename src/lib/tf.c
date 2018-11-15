@@ -171,6 +171,124 @@ char * unique_arr(char * check)
     return chars;
 }
 
+void file_do_replace(struct File * const fl, char * query, char * to)
+{
+    int line;
+    char * original;
+    int has_replace;
+    struct SearchResult * search;
+    int bound;
+
+    for(int i = 0; i < fl->search_count; i++)
+    {
+        bound = -1;
+        search = fl->search_arr[i];
+
+        has_replace = file_str_replace(search, query, to, &bound);
+
+        while(has_replace > 0)
+        {
+            has_replace = file_str_replace(search, query, to, &bound);
+            break;
+        }
+    }
+}
+
+int file_str_replace(struct SearchResult * res, char * q, char * to, int * bd)
+{
+    int line = res->line;
+    char * str = res->string;
+    char * right = strstr(str, q) + strlen(q);
+    int z;
+    int d = 0;
+    int loc;
+    int count = 0;
+
+    int i;
+
+    if(*bd != -1)
+    {
+        i = *bd;
+    }
+    else
+    {
+        i = 0;
+    }
+
+    for( ; i < strlen(str); i++)
+    {
+        if(str[i] == q[0])
+        {
+            loc = i;
+            z = i;
+
+            while(str[z] == q[d])
+            {
+                z++;
+                d++;
+
+                if(d == strlen(q))
+                {
+                    *bd = loc + strlen(to);
+                    count++;
+                    do_replace(res, loc, q, to, *bd);
+                }
+            }
+
+            z = 0;
+            d = 0;
+        }
+
+        if(count > 0)
+        {
+            break;
+        }
+    }
+
+    return count;
+}
+
+char * strstr_new(char * str, int begin)
+{
+    int len = strlen(str);
+    int i = begin;
+    int count = 1;
+    char * new = malloc(sizeof(str) * count);
+    int d = 0;
+
+    while(i != len)
+    {
+        new[d] = str[i];
+        new = realloc(new, sizeof(str) * (count + 1));
+        count++;
+        i++, d++;
+    }
+
+    return new;
+}
+
+void do_replace(struct SearchResult * res, int loc, char * q, char * to, int bd)
+{
+    char * left = malloc(sizeof(char) * loc +
+        (strlen(strstr_new(res->string, loc) + strlen(q)) * sizeof(char *)));
+
+    int i = 0;
+
+    while(i < loc)
+    {
+        left[i] = res->string[i];
+        i++;
+    }
+
+    strcat(left, to);
+    strcat(left, strstr_new(res->string, loc) + strlen(q));
+
+    res->string = realloc(res->string, sizeof(char) * strlen(left));
+    strcpy(res->string, left);
+
+    free(left);
+}
+
 void file_show_search(struct File * const fl)
 {
     struct SearchResult * search;
@@ -188,6 +306,7 @@ void file_explode(struct File * const fl, char * arr,  char * delim)
     int idx = 0;
 
     char * q;
+
     char a[TF_MAX_LINE];
     char s[TF_MAX_LINE];
 

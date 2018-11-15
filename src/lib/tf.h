@@ -43,6 +43,15 @@ struct UniqueWord
     float percentage;
 };
 
+struct StringReplace
+{
+    int query_count;
+    int * query_locs;
+    int line;
+    char * new_str;
+    char * original_str;
+};
+
 FILE * open_file(char * file, char * type);
 void close_file(FILE * fp);
 void get_file_info(struct File * const fl);
@@ -66,7 +75,11 @@ void file_get_unique(struct File * const fl);
 void file_show_search(struct File * const fl);
 void file_get_word_count(struct File * const fl);
 void file_get_unique_words(struct File * const fl);
+void file_do_replace(struct File * const fl, char * query, char * to);
+int file_str_replace(struct SearchResult * res, char * q, char * to, int * bd);
+void do_replace(struct SearchResult * res, int loc, char * q, char * to, int bd);
+char * strstr_new(char * str, int begin);
 
-int sort_uw(const void *v1, const void *v2);
+int sort_uw(const void * v1, const void * v2);
 
 #endif

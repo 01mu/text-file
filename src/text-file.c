@@ -18,6 +18,10 @@ int main(int argc, char ** argv)
 
     int uw_count;
     struct UniqueWord * uw;
+    size_t uw_size;
+
+    char * query;
+    char * to;
 
     if(argv[1] == NULL || argv[2] == NULL)
     {
@@ -31,16 +35,27 @@ int main(int argc, char ** argv)
         return 0;
     }
 
-    if(strcmp(argv[2], "-s") == 0)
+    if(strcmp(argv[2], "-s") == 0 || strcmp(argv[2], "-r") == 0)
     {
-        char * query = argv[3];
+        query = argv[3];
 
         if(query != NULL)
         {
             file_search(&fl, query);
-            file_show_search(&fl);
 
-            printf("Result count: %i\n", fl.search_count);
+            if(strcmp(argv[2], "-s") == 0)
+            {
+                file_show_search(&fl);
+                printf("Result count: %i\n", fl.search_count);
+            }
+
+            if(strcmp(argv[2], "-r") == 0)
+            {
+                to = argv[4];
+
+                file_do_replace(&fl, query, to);
+                file_show_search(&fl);
+            }
         }
     }
 
@@ -59,9 +74,10 @@ int main(int argc, char ** argv)
 
         if(strcmp(argv[2], "-cs") == 0)
         {
+            uw_size = sizeof(struct UniqueWord *);
             uw_count = fl.uw_count;
 
-            qsort(fl.unique_words, uw_count, sizeof(struct UniqueWord *), sort_uw);
+            qsort(fl.unique_words, uw_count, uw_size, sort_uw);
 
             for(int i = 0; i < uw_count; i++)
             {
