@@ -54,7 +54,7 @@ int main(int argc, char ** argv)
                 to = argv[4];
 
                 file_do_replace(&fl, query, to);
-                file_show_search(&fl);
+                file_update_replace(&fl);
             }
         }
     }

@@ -171,7 +171,7 @@ char * unique_arr(char * check)
     return chars;
 }
 
-void file_do_replace(struct File * const fl, char * query, char * to)
+void file_do_replace(struct File * fl, char * query, char * to)
 {
     int line;
     char * original;
@@ -189,7 +189,6 @@ void file_do_replace(struct File * const fl, char * query, char * to)
         while(has_replace > 0)
         {
             has_replace = file_str_replace(search, query, to, &bound);
-            break;
         }
     }
 }
@@ -206,9 +205,9 @@ int file_str_replace(struct SearchResult * res, char * q, char * to, int * bd)
 
     int i;
 
-    if(*bd != -1)
+    if(* bd != -1)
     {
-        i = *bd;
+        i = * bd;
     }
     else
     {
@@ -229,9 +228,9 @@ int file_str_replace(struct SearchResult * res, char * q, char * to, int * bd)
 
                 if(d == strlen(q))
                 {
-                    *bd = loc + strlen(to);
+                    * bd = loc + strlen(to);
                     count++;
-                    do_replace(res, loc, q, to, *bd);
+                    do_replace(res, loc, q, to, * bd);
                 }
             }
 
@@ -253,26 +252,28 @@ char * strstr_new(char * str, int begin)
     int len = strlen(str);
     int i = begin;
     int count = 1;
-    char * new = malloc(sizeof(str) * count);
+    char * new = malloc(sizeof(char *) * count + 1);
     int d = 0;
 
     while(i != len)
     {
         new[d] = str[i];
-        new = realloc(new, sizeof(str) * (count + 1));
+        new = realloc(new, sizeof(char *) * (count + 1));
         count++;
         i++, d++;
     }
+
+    new[d] = '\0';
 
     return new;
 }
 
 void do_replace(struct SearchResult * res, int loc, char * q, char * to, int bd)
 {
-    char * left = malloc(sizeof(char) * loc +
-        (strlen(strstr_new(res->string, loc) + strlen(q)) * sizeof(char *)));
-
     int i = 0;
+
+    char * right = strstr_new(res->string, loc + strlen(q));
+    char left[loc + strlen(to) + strlen(right)];
 
     while(i < loc)
     {
@@ -280,13 +281,14 @@ void do_replace(struct SearchResult * res, int loc, char * q, char * to, int bd)
         i++;
     }
 
+    left[i] = '\0';
+
     strcat(left, to);
-    strcat(left, strstr_new(res->string, loc) + strlen(q));
+    strcat(left, right);
 
-    res->string = realloc(res->string, sizeof(char) * strlen(left));
-    strcpy(res->string, left);
+    memcpy(res->string, left, strlen(left) + 1);
 
-    free(left);
+    free(right);
 }
 
 void file_show_search(struct File * const fl)
@@ -452,6 +454,7 @@ int file_init(struct File * const fl, char * file, char * type)
     fl->uw_count = 0;
 
     fl->file_ptr = open_file(file, type);
+    fl->file_name = file;
 
     if(fl->file_ptr == NULL)
     {
@@ -607,4 +610,20 @@ FILE * open_file(char * file, char * type)
 void close_file(FILE * fp)
 {
     fclose(fp);
+}
+
+void file_update_replace(struct File * const fl)
+{
+    struct SearchResult * search;
+
+    for(int i = 0; i < fl->search_count; i++)
+    {
+        search = fl->search_arr[i];
+        strcpy(fl->lines[search->line - 1], search->string);
+    }
+
+    for(int i = 0; i < fl->line_count; i++)
+    {
+        printf("%s", fl->lines[i]);
+    }
 }
