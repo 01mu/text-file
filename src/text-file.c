@@ -20,8 +20,8 @@ int main(int argc, char ** argv)
     struct UniqueWord * uw;
     size_t uw_size;
 
-    char * query;
-    char * to;
+    char query[TF_MAX_LINE];
+    char to[TF_MAX_LINE];
 
     if(argv[1] == NULL || argv[2] == NULL)
     {
@@ -37,7 +37,8 @@ int main(int argc, char ** argv)
 
     if(strcmp(argv[2], "-s") == 0 || strcmp(argv[2], "-r") == 0)
     {
-        query = argv[3];
+        printf("Query: ");
+        scanf("%[^\n]%*c", query);
 
         if(query != NULL)
         {
@@ -51,10 +52,12 @@ int main(int argc, char ** argv)
 
             if(strcmp(argv[2], "-r") == 0)
             {
-                to = argv[4];
+                printf("To: ");
+                scanf("%[^\n]%*c", to);
 
                 file_do_replace(&fl, query, to);
                 file_update_replace(&fl);
+                printf("Replace count: %i\n", fl.search_count);
             }
         }
     }
