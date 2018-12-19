@@ -1,7 +1,7 @@
 # text-file
 Perform simple oprations on text taken from a file.
 ## Usage
-File:
+`input`
 ```
 a a a
 b
@@ -11,7 +11,7 @@ d d
 e
 ```
 ### Get file info
-`./text-file input -c
+`./text-file input -c`
 ```
 Char count: 23
 Line count: 7
@@ -19,7 +19,7 @@ Word count: 14
 Unique word count: 7
 ```
 ### Get word frequency and percent
-`./text-file input -cs
+`./text-file input -cs`
 ```
 a 1 7.142858
 b 1 7.142858
@@ -30,7 +30,7 @@ f 1 7.142858
 h 8 57.142860
 ```
 ### Search file
-`./text-file input -s
+`./text-file input -s`
 ```
 Query: e
 3: e
