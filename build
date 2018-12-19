@@ -1,0 +1,3 @@
+cc -o text-file src/text-file.c
+./text-file $1 $2 $3 $4
+

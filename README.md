@@ -1,6 +1,7 @@
 # text-file
-
-### file
+Perform simple oprations on text taken from a file.
+## Usage
+File:
 ```
 a a a
 b
@@ -9,30 +10,43 @@ d d
 
 e
 ```
-### ./text-file file -cs
+### Get file info
+`./text-file input -c
 ```
-file
-
-Char count: 11
-Line count: 6
-Word count: 8
-Unique word count: 5
-
-a 3 37.500000
-b 1 12.500000
-c 1 12.500000
-d 2 25.000000
-e 1 12.500000
-
-0.000325
+Char count: 23
+Line count: 7
+Word count: 14
+Unique word count: 7
 ```
-### ./text-file file -s a
+### Get word frequency and percent
+`./text-file input -cs
 ```
-file - "a"
-
-1: a a a
-
-Search count: 1
-
-0.000241
+a 1 7.142858
+b 1 7.142858
+c 1 7.142858
+d 1 7.142858
+e 1 7.142858
+f 1 7.142858
+h 8 57.142860
+```
+### Search file
+`./text-file input -s
+```
+Query: e
+3: e
+Result count: 1
+```
+### Replace text
+`./text-file input -r`
+```
+Query: a
+To: a eee c
+a eee c b c
+d
+e
+f
+  h
+h
+h h h h h h
+Replace count: 1
 ```
