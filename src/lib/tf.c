@@ -52,6 +52,7 @@ void file_get_unique_words(struct File * const fl)
     fl->uw_count = found;
 }
 
+/* use hash map */
 int check_word_exists(int wc, struct UniqueWord ** uw, char * check, int found)
 {
     int exists = 0;
